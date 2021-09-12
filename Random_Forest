@@ -1,0 +1,30 @@
+from pandas import read_csv
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.ensemble import RandomForestClassifier
+
+###########################Random Forest###########################
+
+df=pd.read_csv("E:/Model_Data/WithSomeApis/BernulliData/Originals/TrainingSet.txt")
+data=df.values
+x = data[:, :-1].astype(str)
+y = data[:, -1].astype(str)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=75)
+print(y_test.shape)
+print(x_train.shape)
+
+
+classifier=RandomForestClassifier(n_estimators=50, random_state=10)
+classifier.fit(x_train,y_train)
+y_pred=classifier.predict(x_test)
+
+###########################Obtaining standard measures###########################
+print(confusion_matrix(y_test,y_pred))
+print(classification_report(y_test, y_pred))
+print(accuracy_score(y_test, y_pred))
+print (f1_score(y_test,y_pred, average=None))
+print ( recall_score(y_test,y_pred, average=None))
+print(precision_score(y_test,y_pred, average=None))
